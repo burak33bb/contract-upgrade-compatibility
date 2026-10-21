@@ -69,6 +69,18 @@ class UpgradeCompatibilityTests(unittest.TestCase):
         self.assertEqual(interface["storage_order"], ["owner", "total"])
         self.assertEqual(set(interface["public_methods"]), {"get_total", "deposit"})
 
+    def test_additive_read_method_is_reported_without_claiming_safety(self):
+        candidate = BASELINE + '''\n    @gl.public.view\n    def get_version(self) -> str:\n        return "v1.1.0"\n'''
+        diff = self.contract._compare_interfaces(
+            self.contract._extract_interface(BASELINE),
+            self.contract._extract_interface(candidate),
+        )
+        self.assertEqual(diff["added_public_methods"], ["get_version"])
+        self.assertEqual(
+            self.contract._aggregate_status(diff, "LOW"),
+            self.contract.NO_BREAKING_CHANGE_IDENTIFIED,
+        )
+
     def test_flags_removed_storage_and_changed_public_signature(self):
         candidate = BASELINE.replace("    owner: str\n", "").replace(
             "def deposit(self, amount: int)", "def deposit(self, amount: str)"

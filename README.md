@@ -25,7 +25,7 @@ Both source URLs must be HTTPS raw GitHub URLs pinned to full 40-character commi
 
 ## State and Methods
 
-Deployment pins a contract name, baseline version, and baseline raw-source URL. `assess_candidate` takes a candidate version and pinned raw-source URL plus optional change context. Accepted reports are appended to `reports`; `get_latest_report`, `get_report_count`, and `get_report(id)` expose the history.
+Deployment pins a contract name, baseline version, and baseline raw-source URL. `get_baseline` exposes that pinned configuration. `assess_candidate` takes a candidate version and pinned raw-source URL plus optional change context. Accepted reports are appended to `reports`; `get_latest_report`, `get_report_count`, and `get_report(id)` expose the history.
 
 The contract does not execute either source file. It parses Python syntax trees for interface facts and submits the source text only as untrusted data to the independent semantic reviewers. Source size and report fields are bounded.
 

@@ -190,6 +190,14 @@ Return only JSON: {{"accept": true, "reason": "brief"}} or
         return len(self.reports)
 
     @gl.public.view
+    def get_baseline(self) -> dict:
+        return {
+            "contract_name": self.contract_name,
+            "baseline_version": self.baseline_version,
+            "baseline_source_url": self.baseline_source_url,
+        }
+
+    @gl.public.view
     def get_latest_report(self) -> typing.Any:
         if not self.latest_report:
             return {}
